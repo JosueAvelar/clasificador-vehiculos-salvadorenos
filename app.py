@@ -1,18 +1,18 @@
 import streamlit as st
-import tensorflow as tf
+import keras
 import numpy as np
 from PIL import Image
 import json
-from tensorflow.keras.applications.resnet50 import preprocess_input
+from keras.applications.resnet50 import preprocess_input
 
-# Cache para no recargar el modelo en cada interacción
 @st.cache_resource
 def load_model():
-    model = tf.keras.models.load_model("mi_modelo.keras")
-    with open("clases.json") as f:
+    model = keras.models.load_model('mi_modelo.keras')
+    with open('clases.json') as f:
         class_indices = json.load(f)
     idx_to_class = {v: k for k, v in class_indices.items()}
     return model, idx_to_class
+
 
 modelo, idx_to_class = load_model()
 
