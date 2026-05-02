@@ -13,7 +13,6 @@ def load_model():
     idx_to_class = {v: k for k, v in class_indices.items()}
     return model, idx_to_class
 
-
 modelo, idx_to_class = load_model()
 
 # Emojis por clase para hacerlo más visual
