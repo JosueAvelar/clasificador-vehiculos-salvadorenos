@@ -42,14 +42,12 @@ if uploaded_file is not None:
 
     with col2:
         with st.spinner("Analizando imagen..."):
-            # Preprocesar
             IMG_SIZE = 160
             img_resized = image.resize((IMG_SIZE, IMG_SIZE))
             img_array  = np.array(img_resized)
             img_array  = preprocess_input(img_array)
             img_array  = np.expand_dims(img_array, axis=0)
 
-            # Predecir
             pred = modelo.predict(img_array, verbose=0)[0]
 
         # Clase ganadora
@@ -57,9 +55,10 @@ if uploaded_file is not None:
         clase_ganador = idx_to_class[idx_ganador]
         emoji_ganador = EMOJIS.get(clase_ganador, "")
         prob_ganador  = pred[idx_ganador]
+        nombre_ganador = clase_ganador.replace('_', ' ').title()
 
         st.subheader("Resultado:")
-        st.markdown(f"## {emoji_ganador} {clase_ganador.replace("_", " ").title()}")
+        st.markdown(f"## {emoji_ganador} {nombre_ganador}")
         st.markdown(f"**Confianza: {prob_ganador:.1%}**")
         st.divider()
 
@@ -69,7 +68,8 @@ if uploaded_file is not None:
             nombre = idx_to_class[idx]
             emoji  = EMOJIS.get(nombre, "")
             prob   = pred[idx]
-            st.write(f"{emoji} **{nombre.replace("_", " ").title()}**: {prob:.1%}")
+            nombre_limpio = nombre.replace('_', ' ').title()
+            st.write(f"{emoji} **{nombre_limpio}**: {prob:.1%}")
             st.progress(float(prob))
 
 st.divider()
